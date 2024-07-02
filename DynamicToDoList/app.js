@@ -25,7 +25,8 @@ addTask.addEventListener("click", () => {
 
   //add eventlistener to button
   completeButton.addEventListener("click", () => {
-    newTask.className("completed");
+    newTask.className = "completed"; //can only add one class
+    //newTask.classList.add("notCompleted", "ohReally"); //can add multiple classes
     // newTask.remove();
   });
 });
