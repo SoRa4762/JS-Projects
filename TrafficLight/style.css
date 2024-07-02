@@ -1,0 +1,33 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.traffic__light {
+  height: 350px;
+  width: 130px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  background-color: silver;
+}
+
+.light {
+  width: 100px;
+  height: 100px;
+  background-color: #000;
+  border-radius: 50%;
+  transition: all;
+  transition-duration: 300ms;
+}
