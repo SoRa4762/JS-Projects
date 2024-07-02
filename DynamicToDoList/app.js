@@ -25,7 +25,7 @@ addTask.addEventListener("click", () => {
 
   //add eventlistener to button
   completeButton.addEventListener("click", () => {
-    newTask.classList.add("completed");
+    newTask.className("completed");
     // newTask.remove();
   });
 });
