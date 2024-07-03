@@ -9,6 +9,7 @@ taskList.style.gap = "8px";
 
 addTask.addEventListener("click", () => {
   console.log(input.value);
+  let isComplete = false;
   //adding list
   const newTask = document.createElement("li");
   newTask.innerText = input.value;
@@ -25,8 +26,19 @@ addTask.addEventListener("click", () => {
 
   //add eventlistener to button
   completeButton.addEventListener("click", () => {
-    newTask.className = "completed"; //can only add one class
+    // if (isComplete === true) {
+    //   isComplete = false;
+    // } else {
+    //   isComplete = true;
+    // }
+    newTask.className = "completed";
+    //can only add one class
     //newTask.classList.add("notCompleted", "ohReally"); //can add multiple classes
     // newTask.remove();
   });
+
+  //failed attempt
+  // isComplete
+  //   ? newTask.classList.add("completed")
+  //   : newTask.classList.remove("completed");
 });
