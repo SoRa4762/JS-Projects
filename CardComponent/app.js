@@ -1,38 +1,63 @@
 const data = [
   {
-    image: "https://via.placeholder.com/150",
-    title: "Card 1",
-    description: "This is the description for card 1.",
+    title: "Kimi no Nawa",
+    img: "https://c4.wallpaperflare.com/wallpaper/92/460/849/your-name-kimi-no-na-wa-space-anime-wallpaper-preview.jpg",
+    description:
+      "Kimi no Nawa is a Japanese animated series created by Makoto Shinkai.",
   },
   {
-    image: "https://via.placeholder.com/150",
-    title: "Card 2",
-    description: "This is the description for card 2.",
+    title: "Naruto",
+    img: "https://w0.peakpx.com/wallpaper/198/283/HD-wallpaper-minato-neon-naruto-black-shippuden-simple-hokage-anime.jpg",
+    description:
+      "Naruto is a Japanese manga series written and illustrated by Masashi Kishimoto.",
   },
   {
-    image: "https://via.placeholder.com/150",
-    title: "Card 3",
-    description: "This is the description for card 3.",
+    title: "Bleach",
+    img: "https://static0.cbrimages.com/wordpress/wp-content/uploads/2023/10/bleach-thousand-year-blood-war-anime-season-2-art.jpg",
+    description:
+      "Bleach is a Japanese manga series written and illustrated by Tite Kubo",
+  },
+  {
+    title: "Bleach",
+    img: "https://static0.cbrimages.com/wordpress/wp-content/uploads/2023/10/bleach-thousand-year-blood-war-anime-season-2-art.jpg",
+    description:
+      "Bleach is a Japanese manga series written and illustrated by Tite Kubo",
+  },
+  {
+    title: "Bleach",
+    img: "https://static0.cbrimages.com/wordpress/wp-content/uploads/2023/10/bleach-thousand-year-blood-war-anime-season-2-art.jpg",
+    description:
+      "Bleach is a Japanese manga series written and illustrated by Tite Kubo",
   },
 ];
 
 const cardContainer = document.getElementById("card-container");
 
-data.map((item) => {
-  const card = document.createElement("div");
-  card.className = "card";
+data.map((card) => {
+  //card div
+  const cardDiv = document.createElement("div");
+  cardDiv.className = "card";
 
+  //image div
+  const imageDiv = document.createElement("div");
+  imageDiv.className = "image";
+  cardDiv.appendChild(imageDiv);
+
+  //image
   const image = document.createElement("img");
-  image.src = item.image;
-  card.appendChild(image);
+  image.src = card.img;
+  imageDiv.appendChild(image);
 
-  const title = document.createElement("h2");
-  title.innerText = item.title;
-  card.appendChild(title);
+  //title
+  const title = document.createElement("h1");
+  title.textContent = card.title;
+  cardDiv.appendChild(title);
 
+  //desc
   const description = document.createElement("p");
-  description.innerText = item.description;
-  card.appendChild(description);
+  description.textContent = card.description;
+  cardDiv.appendChild(description);
 
-  cardContainer.appendChild(card);
+  //adding each card to container
+  cardContainer.appendChild(cardDiv);
 });

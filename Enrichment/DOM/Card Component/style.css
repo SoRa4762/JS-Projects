@@ -17,6 +17,9 @@
 .card {
   height: 100%;
   width: 100%;
+  border: 1px solid black;
+  border-radius: 12px;
+  padding: 12px;
 }
 
 .image {
@@ -28,4 +31,5 @@
   height: 100%;
   width: 100%;
   object-fit: cover;
+  border-radius: 12px;
 }
