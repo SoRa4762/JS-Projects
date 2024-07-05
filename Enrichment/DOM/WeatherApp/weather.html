@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather App</title>
+    <script defer src="./weather.js"></script>
+  </head>
+  <body>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        height: 100vh;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: hsl(0, 0%, 70%);
+      }
+
+      .container {
+        max-height: 100%;
+        width: 400px;
+        background-color: hsl(0, 0%, 95%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border-radius: 12px;
+        padding: 12px;
+      }
+
+      .result {
+        display: none;
+      }
+    </style>
+
+    <div class="container">
+      <h1>Weather App</h1>
+      <div>
+        <input type="text" id="search" />
+        <button id="submit">Submit</button>
+      </div>
+      <div class="result">
+        <h1 id="city-name"></h1>
+        <h3 id="temperature"></h3>
+        <p id="description"></p>
+      </div>
+    </div>
+  </body>
+</html>

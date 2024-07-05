@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jikan API</title>
+    <script defer src="./app.js"></script>
+  </head>
+  <style>
+    #result {
+      display: none;
+    }
+  </style>
+  <body>
+    <div>
+      <input type="text" id="search" placeholder="anime name" />
+      <button onclick="submit()">Submit</button>
+      <div id="result">
+        <h1 id="anime-title"></h1>
+        <p id="paragraph"></p>
+        <img id="image" src="" alt="" />
+      </div>
+    </div>
+  </body>
+</html>
