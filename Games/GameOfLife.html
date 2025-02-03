@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Game of Life</title>
+    <style>
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background: #1a1a1a;
+        color: #fff;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          sans-serif;
+      }
+
+      .controls {
+        margin: 20px;
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      button {
+        background: #333;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background 0.3s;
+        font-size: 14px;
+      }
+
+      button:hover {
+        background: #444;
+      }
+
+      button.active {
+        background: #666;
+      }
+
+      canvas {
+        background: #222;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .stats {
+        margin: 10px;
+        font-size: 14px;
+        color: #888;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="controls">
+      <button id="startBtn">Start</button>
+      <button id="clearBtn">Clear</button>
+      <button id="randomBtn">Random</button>
+    </div>
+    <canvas id="gameCanvas"></canvas>
+    <div class="stats" id="stats">Generation: 0 | Population: 0</div>
+
+    <script>
+      const canvas = document.getElementById("gameCanvas");
+      const ctx = canvas.getContext("2d");
+      const startBtn = document.getElementById("startBtn");
+      const clearBtn = document.getElementById("clearBtn");
+      const randomBtn = document.getElementById("randomBtn");
+      const statsElement = document.getElementById("stats");
+
+      const CELL_SIZE = 15;
+      const GRID_COLOR = "#333";
+      const CELL_COLOR = "#4CAF50";
+
+      let width = Math.floor((window.innerWidth * 0.8) / CELL_SIZE) * CELL_SIZE;
+      let height =
+        Math.floor((window.innerHeight * 0.6) / CELL_SIZE) * CELL_SIZE;
+      width = Math.min(width, 900);
+      height = Math.min(height, 600);
+
+      canvas.width = width;
+      canvas.height = height;
+
+      const COLS = Math.floor(width / CELL_SIZE);
+      const ROWS = Math.floor(height / CELL_SIZE);
+
+      let grid = createGrid();
+      let isRunning = false;
+      let generation = 0;
+
+      function createGrid() {
+        return new Array(COLS)
+          .fill(null)
+          .map(() => new Array(ROWS).fill(false));
+      }
+
+      function drawGrid() {
+        ctx.clearRect(0, 0, width, height);
+
+        // Draw cells
+        for (let i = 0; i < COLS; i++) {
+          for (let j = 0; j < ROWS; j++) {
+            if (grid[i][j]) {
+              ctx.fillStyle = CELL_COLOR;
+              ctx.fillRect(
+                i * CELL_SIZE,
+                j * CELL_SIZE,
+                CELL_SIZE - 1,
+                CELL_SIZE - 1
+              );
+            }
+          }
+        }
+
+        // Draw grid lines
+        ctx.strokeStyle = GRID_COLOR;
+        ctx.lineWidth = 0.5;
+        for (let i = 0; i <= COLS; i++) {
+          ctx.beginPath();
+          ctx.moveTo(i * CELL_SIZE, 0);
+          ctx.lineTo(i * CELL_SIZE, height);
+          ctx.stroke();
+        }
+        for (let j = 0; j <= ROWS; j++) {
+          ctx.beginPath();
+          ctx.moveTo(0, j * CELL_SIZE);
+          ctx.lineTo(width, j * CELL_SIZE);
+          ctx.stroke();
+        }
+      }
+
+      function countNeighbors(x, y) {
+        let count = 0;
+        for (let i = -1; i <= 1; i++) {
+          for (let j = -1; j <= 1; j++) {
+            if (i === 0 && j === 0) continue;
+            const col = (x + i + COLS) % COLS;
+            const row = (y + j + ROWS) % ROWS;
+            count += grid[col][row] ? 1 : 0;
+          }
+        }
+        return count;
+      }
+
+      function nextGeneration() {
+        const newGrid = createGrid();
+        let population = 0;
+
+        for (let i = 0; i < COLS; i++) {
+          for (let j = 0; j < ROWS; j++) {
+            const neighbors = countNeighbors(i, j);
+            if (grid[i][j]) {
+              newGrid[i][j] = neighbors === 2 || neighbors === 3;
+            } else {
+              newGrid[i][j] = neighbors === 3;
+            }
+            if (newGrid[i][j]) population++;
+          }
+        }
+
+        grid = newGrid;
+        generation++;
+        statsElement.textContent = `Generation: ${generation} | Population: ${population}`;
+      }
+
+      function update() {
+        if (isRunning) {
+          nextGeneration();
+          drawGrid();
+          requestAnimationFrame(() => setTimeout(update, 100));
+        }
+      }
+
+      canvas.addEventListener("click", (event) => {
+        const rect = canvas.getBoundingClientRect();
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
+        const i = Math.floor(x / CELL_SIZE);
+        const j = Math.floor(y / CELL_SIZE);
+
+        if (i >= 0 && i < COLS && j >= 0 && j < ROWS) {
+          grid[i][j] = !grid[i][j];
+          drawGrid();
+        }
+      });
+
+      startBtn.addEventListener("click", () => {
+        isRunning = !isRunning;
+        startBtn.textContent = isRunning ? "Stop" : "Start";
+        startBtn.classList.toggle("active");
+        if (isRunning) update();
+      });
+
+      clearBtn.addEventListener("click", () => {
+        grid = createGrid();
+        generation = 0;
+        statsElement.textContent = `Generation: 0 | Population: 0`;
+        drawGrid();
+      });
+
+      randomBtn.addEventListener("click", () => {
+        for (let i = 0; i < COLS; i++) {
+          for (let j = 0; j < ROWS; j++) {
+            grid[i][j] = Math.random() > 0.85;
+          }
+        }
+        drawGrid();
+      });
+
+      // Initial draw
+      drawGrid();
+    </script>
+  </body>
+</html>
